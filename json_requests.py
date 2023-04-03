@@ -25,3 +25,7 @@ for row in df.rdd.collect():
     data = {"user_name": user_name, "points": points}
     response = requests.post(endpoint, json.dumps(data))
     print(f"Sent data for user {user_id}, response: {response.text}")
+
+# convert df to json
+json_strings = df.toJSON().collect()
+payload = json.dumps([json.loads(js) for js in json_strings])
