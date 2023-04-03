@@ -12,3 +12,10 @@ leaderboard_avatar_df = users_df_with_filters.withColumn("avatar_label", array_c
 filtered_table = (new_silver_users
                     .filter(array_contains(col("attributes"), "top-quizzer") | array_contains(col("attributes"), "top-predictor") | array_contains(col("attributes"), "fastest-player") | array_contains(col("attributes"), "top-player"))
 )
+
+# write a udf and use in a column
+top_player_udf = udf(lambda questions_answered, questions_correct: (questions_correct * 10000) + (10000 - questions_answered), IntegerType())
+top_player = (questions_asked.join(questions_correct.selectExpr("user_id","questions_correct"),["user_id"])
+                              .selectExpr("project_id","user_id","questions_answered","questions_correct")
+                              .withColumn("top_player_score",top_player_udf(col("questions_answered"), col("questions_correct")))
+                  )
