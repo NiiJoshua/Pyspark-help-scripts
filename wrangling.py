@@ -1,6 +1,6 @@
 fastest_player_list = silver_leaderboard_overall_df.where("leaderboard_id = 2 AND rank = 1").rdd.map(lambda x:x['user_id']).collect()
 # using when and otherwise
-users_df_with_filters = (users_sliced_df.withColumn("fastest_player_filters", when(users_sliced_df.user_id.isin(fastest_player_list),"fastest-player").otherwise(None))
+users_df_with_filters = (users_sliced_df.withColumn("fastest_player_filters", when(users_sliced_df.user_id.isin(fastest_player_list),"fastest-player").otherwise(None)))
 
 # create a new column of array type
 concat_udf = udf(lambda x: [i for i in x if i is not None], ArrayType(StringType()))
@@ -19,3 +19,6 @@ top_player = (questions_asked.join(questions_correct.selectExpr("user_id","quest
                               .selectExpr("project_id","user_id","questions_answered","questions_correct")
                               .withColumn("top_player_score",top_player_udf(col("questions_answered"), col("questions_correct")))
                   )
+
+# array to create an empty list of string type
+df = df.withColumn("attributes",array().cast(ArrayType(StringType())))
