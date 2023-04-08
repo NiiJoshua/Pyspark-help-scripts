@@ -22,3 +22,6 @@ top_player = (questions_asked.join(questions_correct.selectExpr("user_id","quest
 
 # array to create an empty list of string type
 df = df.withColumn("attributes",array().cast(ArrayType(StringType())))
+
+# return only value of psyspark dataframe 
+first_col_value = int(df.select("col1").collect()[0][0]) # case of an integer
