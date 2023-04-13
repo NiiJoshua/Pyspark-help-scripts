@@ -25,3 +25,6 @@ df = df.withColumn("attributes",array().cast(ArrayType(StringType())))
 
 # return only value of psyspark dataframe 
 first_col_value = int(df.select("col1").collect()[0][0]) # case of an integer
+
+# read json without using sc.paralelize after making a request
+df = request.json()
