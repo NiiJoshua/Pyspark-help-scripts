@@ -8,4 +8,3 @@ This repo contains spark scripts in getting around with pyspark
 > 4. [Exception Handling](https://www.programiz.com/python-programming/exception-handling)
 > 5. [Delta Lake Python documentation](https://docs.delta.io/0.4.0/api/python/index.html) (included when matched, etc)
 > 6. [Manipulating Arrays](https://winf-hsos.github.io/databricks-notebooks/big-data-analytics/ss-2020/Arrays%20with%20SQL.html) with Spark SQL
-> 7. 
