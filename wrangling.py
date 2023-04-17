@@ -28,3 +28,6 @@ first_col_value = int(df.select("col1").collect()[0][0]) # case of an integer
 
 # read json without using sc.paralelize after making a request
 df = request.json()
+
+# add nulls for attributes when there's none in the json api call
+dataDf['attributes'] = dataDf.apply(lambda row: row.get('username', 'null'), axis=1)
