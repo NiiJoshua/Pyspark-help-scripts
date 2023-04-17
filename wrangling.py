@@ -38,3 +38,9 @@ df.select("project_id",
                 when(col("user_record").isNull(), None).otherwise(col("user_record.username")).alias("display_name"),
                 when(col("user_record").isNull(), None).otherwise(col("user_record.externalId")).alias("external_id"),
                 when(col("user_record.attributes").isNotNull(), "user_record.attributes").otherwise(None).alias("attributes")
+# attributes example with pandas
+data = response.json()["data"]
+dataDf = pd.DataFrame(data)
+# userId = dataDf[["userId"].unique()
+# userId
+dataDf['attributes'] = dataDf.apply(lambda row: row.get('username', 'null'), axis=1)
