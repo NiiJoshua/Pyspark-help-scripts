@@ -30,4 +30,11 @@ first_col_value = int(df.select("col1").collect()[0][0]) # case of an integer
 df = request.json()
 
 # add nulls for attributes when there's none in the json api call
-dataDf['attributes'] = dataDf.apply(lambda row: row.get('username', 'null'), axis=1)
+dataDf['attributes'] = dataDf.apply(lambda row: row.get('username', 'null'), axis=1)  # pandas
+when(col("user_record").isNull(), None).otherwise(col("user_record.externalId")).alias("external_id") #spark
+# example with spark
+df.select("project_id",
+                when(col("user_record").isNull(), None).otherwise(col("user_record.UserId")).alias("user_id"),
+                when(col("user_record").isNull(), None).otherwise(col("user_record.username")).alias("display_name"),
+                when(col("user_record").isNull(), None).otherwise(col("user_record.externalId")).alias("external_id"),
+                when(col("user_record.attributes").isNotNull(), "user_record.attributes").otherwise(None).alias("attributes")
