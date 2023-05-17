@@ -50,4 +50,11 @@ print(json_object)
 print(type(json_object))
 
 # Check if a package is installed 
+import pkg_resources
 
+def is_package_installed(package_name):
+    try:
+        pkg_resources.get_distribution(package_name)
+        return True
+    except pkg_resources.DistributionNotFound:
+        return False
