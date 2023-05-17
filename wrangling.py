@@ -44,3 +44,5 @@ dataDf = pd.DataFrame(data)
 # userId = dataDf[["userId"].unique()
 # userId
 dataDf['attributes'] = dataDf.apply(lambda row: row.get('username', 'null'), axis=1)
+
+Get metadata of a project from content_etl.silver_contentmap
