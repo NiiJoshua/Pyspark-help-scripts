@@ -58,3 +58,10 @@ def is_package_installed(package_name):
         return True
     except pkg_resources.DistributionNotFound:
         return False
+    
+      # Test the function above
+is_kafka_installed = is_package_installed("confluent-kafka")
+if is_kafka_installed:
+    print("Kafka is installed.")
+else:
+    print("Kafka is not installed.")
