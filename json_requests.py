@@ -29,3 +29,25 @@ for row in df.rdd.collect():
 # convert df to json
 json_strings = df.toJSON().collect()
 payload = json.dumps([json.loads(js) for js in json_strings])
+
+# Create a json file
+dictionary = {
+    "name": "monterosa",
+    "number": 56,
+    "phonenumber": "9976770500"
+}
+ 
+with open("sample.json", "w") as outfile:
+    json.dump(dictionary, outfile)
+
+   #Read the file
+with open('sample.json', 'r') as openfile:
+ 
+    # Reading from json file
+    json_object = openfile.read()#json.load(openfile)
+ 
+print(json_object)
+print(type(json_object))
+
+# Check if a package is installed 
+
