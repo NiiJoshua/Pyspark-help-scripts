@@ -65,3 +65,21 @@ if is_kafka_installed:
     print("Kafka is installed.")
 else:
     print("Kafka is not installed.")
+
+#  Create a dummu json file
+dictionary = {
+    "name": "monterosa",
+    "number": 56,
+    "phonenumber": "9976770500"
+}
+ 
+with open("sample.json", "w") as outfile:
+    json.dump(dictionary, outfile)
+
+with open('sample.json', 'r') as openfile:
+ 
+    # Reading from json file
+    json_object = openfile.read()#json.load(openfile)
+ 
+print(json_object)
+print(type(json_object))
