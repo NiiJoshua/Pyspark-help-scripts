@@ -57,3 +57,28 @@ query = (streamingDF
   .option("checkpointLocation", checkpoint_path)
   .table("orders_with_customer_info")
 )
+
+# rugby scratch pad
+hashed = (joined_df.withColumn("event_name", when(col("event_name") == "Jakarta - Round 10", "World Cup Day 1").otherwise(col("event_name")))
+           )
+
+hashed_df = hashed.withColumn("content_type", when(hashed["content_type"] == "formula-e-group-driver-element", "team-selector-element")
+                                 .when(hashed["content_type"] == "formula-e-fastest-lap-element", "predictor-element")
+                                 .when(hashed["content_type"] == "formula-e-podium-position-element", "podium-predictor-element")
+                                 .otherwise(hashed["content_type"]))
+
+sampled_data = hashed_df.sample(withReplacement=False, fraction=0.005, seed=42)
+json_data = sampled_data.toJSON().collect()
+
+producer = ProducerTask(eventStreamsProducerConfig, kafka_topic_name, 3) 
+producer.connect()
+
+for row in json_data:
+    # producer.send('topic_name', line.encode('utf-8'))
+    producer.sendMessage(row.encode('utf-8'),None) 
+------
+fe_silv_users_df = (fe_silv_users
+                                 .withColumn("external_idd",concat(lit('auth0|'),md5(fe_silv_users['external_id'])))
+                                 .selectExpr("user_id","external_idd")
+                                 .withColumnRenamed("external_idd", "external_id")
+) 
