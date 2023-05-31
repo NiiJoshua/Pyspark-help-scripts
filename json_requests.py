@@ -66,7 +66,7 @@ if is_kafka_installed:
 else:
     print("Kafka is not installed.")
 
-#  Create a dummu json file
+#  Create a dummy json file
 dictionary = {
     "name": "monterosa",
     "number": 56,

@@ -46,3 +46,14 @@ dataDf = pd.DataFrame(data)
 dataDf['attributes'] = dataDf.apply(lambda row: row.get('username', 'null'), axis=1)
 
 Get metadata of a project from content_etl.silver_contentmap
+
+# managing streaming with static data
+streamingDF = spark.readStream.table("orders")
+staticDF = spark.read.table("customers")
+
+query = (streamingDF
+  .join(staticDF, streamingDF.customer_id==staticDF.id, "inner")
+  .writeStream
+  .option("checkpointLocation", checkpoint_path)
+  .table("orders_with_customer_info")
+)
