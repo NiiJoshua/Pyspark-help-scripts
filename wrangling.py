@@ -82,3 +82,10 @@ fe_silv_users_df = (fe_silv_users
                                  .selectExpr("user_id","external_idd")
                                  .withColumnRenamed("external_idd", "external_id")
 ) 
+
+# raise an error and stop workflow
+class NoLeaderboardError(Exception):
+    pass
+
+if quiz_df.isEmpty():
+      raise NoLeaderboardError(f"No Leaderboard data found for event ID: {event_id}")
