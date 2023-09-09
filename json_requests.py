@@ -83,3 +83,16 @@ with open('sample.json', 'r') as openfile:
  
 print(json_object)
 print(type(json_object))
+
+# Read json with pyspark
+ df = spark.read.json(sc.parallelize([ response.text ]))
+      data_rows = len(df.first()["data"])
+      if (data_rows > 0):
+        event_df = (df.withColumn("data", explode("data"))
+                    .withColumn("parent_id", lit(parent_id))
+                    .withColumn("id", col("data.id"))
+                    .withColumn("data", to_json("data"))
+                    .withColumn("mic_host", lit(mic_host))
+                    .drop("links"))
+        
+        
