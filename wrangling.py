@@ -89,3 +89,7 @@ class NoLeaderboardError(Exception):
 
 if quiz_df.isEmpty():
       raise NoLeaderboardError(f"No Leaderboard data found for event ID: {event_id}")
+
+# Is in
+events_df = spark.read.format("delta").load(silver_events_path).select("event_id").distinct().collect()
+events_list =  [row.event_id for row in events_df]
