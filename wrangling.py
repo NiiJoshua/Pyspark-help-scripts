@@ -93,3 +93,14 @@ if quiz_df.isEmpty():
 # Is in
 events_df = spark.read.format("delta").load(silver_events_path).select("event_id").distinct().collect()
 events_list =  [row.event_id for row in events_df]
+
+# Fanatics stream test
+stream_run = (stream_df.writeStream
+    .format("kinesis") 
+    .option("checkpointLocation", firehose_checkpoint)
+    .option("maxBytesPerTrigger", "2097152")
+    .option("maxRecordsPerTrigger", "10")
+    .trigger(processingTime='30 seconds')
+    .foreachBatch(writeToFirehose) 
+    .start()
+)
